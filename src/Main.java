@@ -67,10 +67,13 @@ public class Main {
         if (indSign == 0)
             throw new IOException(); //нет знака - это не выражение
 
-String aStr=input.substring(0,indSign-1);
-String bStr=input.substring(indSign+1,input.length());
+        String aStr = input.substring(0, indSign - 1);
+        String bStr = input.substring(indSign + 1, input.length());
 
 
+        a = RomanToArabic(aStr);
+        b = RomanToArabic(bStr);
+        if (a==0||b==0)throw new IOException();//не является требуемой римской цыфрой
 
 
 
@@ -84,7 +87,7 @@ I.GetNumber();
 
 */
 
-        
+
         return "555555555";
     }
 
@@ -113,6 +116,13 @@ I.GetNumber();
         return a < 1 || a > 10 || b < 1 || b > 10;
     }
 
+    static byte RomanToArabic(String romStr) {
+        byte num = 0;
+        for (RomanNumerals romanNum : RomanNumerals.values()) {
+            if (romStr == romanNum.name()) num = (byte) romanNum.GetInt();
+        }
+        return num;
+    }
 
 }
 

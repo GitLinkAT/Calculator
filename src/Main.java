@@ -67,28 +67,15 @@ public class Main {
         if (indSign == 0)
             throw new IOException(); //нет знака - это не выражение
 
-        String aStr = input.substring(0, indSign - 1);
+        String aStr = input.substring(0, indSign);
         String bStr = input.substring(indSign + 1, input.length());
-
-
+        
         a = RomanToArabic(aStr);
         b = RomanToArabic(bStr);
-        if (a==0||b==0)throw new IOException();//не является требуемой римской цыфрой
+        if (a<=0||b<=0)throw new IOException();//не является требуемой римской цыфрой
 
+        return         ArabicToRoman (CalculateArabicExpression(a, b, input.charAt(indSign)));
 
-
-/*
-RomanNumerals I=RomanNumerals.I;
-I.GetNumber();
-
-
-        MyEnum e = MyEnum.Test1;
-        String name = e.name(); // Returns "Test1"
-
-*/
-
-
-        return "555555555";
     }
 
 
@@ -119,10 +106,24 @@ I.GetNumber();
     static byte RomanToArabic(String romStr) {
         byte num = 0;
         for (RomanNumerals romanNum : RomanNumerals.values()) {
-            if (romStr == romanNum.name()) num = (byte) romanNum.GetInt();
+            if (romanNum.GetInt()>10) break;
+
+
+            if (romStr.equals(romanNum.name()))
+            return  (byte) romanNum.GetInt();
         }
-        return num;
+        return 0;
     }
+	
+	static String ArabicToRoman (String arabicStr)throws IOException{
+		
+		for (RomanNumerals romanNum : RomanNumerals.values()) {
+
+			if (Integer.parseInt(arabicStr) == romanNum.GetInt()) return romanNum.name();
+        }
+		throw new IOException();
+	}
+	
 
 }
 

@@ -69,22 +69,23 @@ public class Main {
 
         String aStr = input.substring(0, indSign);
         String bStr = input.substring(indSign + 1, input.length());
-        
+
         a = RomanToArabic(aStr);
         b = RomanToArabic(bStr);
-        if (a<=0||b<=0)throw new IOException();//не является требуемой римской цыфрой
+        if (a <= 0 || b <= 0)
+            throw new IOException();//не является требуемой римской цыфрой или выражение меньше или равно 0
+        if (input.charAt(indSign) == '-' & (a - b) <= 0)
+            throw new IOException();// результат выражения меньше или равно нулю что недопустимо для римских цифр
 
-        return         ArabicToRoman (CalculateArabicExpression(a, b, input.charAt(indSign)));
-
+        return ArabicToRoman(CalculateArabicExpression(a, b, input.charAt(indSign)));
     }
-
 
     static boolean IsSign(char c) {                                //проверка на нужный знак
         if (c == '-' | c == '+' | c == '/' | c == '*') return true;
         return false;
     }
 
-    static String CalculateArabicExpression(byte a, byte b, char s) throws IOException {
+    static String CalculateArabicExpression(byte a, byte b, char s) throws IOException {//вычисление выражения с арабскими цифрами
         switch (s) {
             case '+':
                 return Integer.toString(a + b);
@@ -99,31 +100,27 @@ public class Main {
         }
     }
 
-    static boolean NotInTheRange(byte a, byte b) {
+    static boolean NotInTheRange(byte a, byte b) {//проверка на допустимый диапазон
         return a < 1 || a > 10 || b < 1 || b > 10;
     }
 
-    static byte RomanToArabic(String romStr) {
+    static byte RomanToArabic(String romStr) {//перевод римского числа в арабское
         byte num = 0;
         for (RomanNumerals romanNum : RomanNumerals.values()) {
-            if (romanNum.GetInt()>10) break;
-
-
+            if (romanNum.GetInt() > 10) break;
             if (romStr.equals(romanNum.name()))
-            return  (byte) romanNum.GetInt();
+                return (byte) romanNum.GetInt();
         }
         return 0;
     }
-	
-	static String ArabicToRoman (String arabicStr)throws IOException{
-		
-		for (RomanNumerals romanNum : RomanNumerals.values()) {
 
-			if (Integer.parseInt(arabicStr) == romanNum.GetInt()) return romanNum.name();
+    static String ArabicToRoman(String arabicStr) throws IOException {//перевод арабского числа в римское
+
+        for (RomanNumerals romanNum : RomanNumerals.values()) {
+
+            if (Integer.parseInt(arabicStr) == romanNum.GetInt()) return romanNum.name();
         }
-		throw new IOException();
-	}
-	
-
+        throw new IOException();
+    }
 }
 
